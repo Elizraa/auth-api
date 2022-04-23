@@ -5,5 +5,5 @@ const routes = (handler) => ([
     handler: handler.postUserHandler,
   },
 ]);
- 
+
 module.exports = routes;
