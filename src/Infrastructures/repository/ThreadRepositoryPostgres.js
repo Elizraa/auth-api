@@ -1,6 +1,6 @@
 const InvariantError = require('../../Commons/exceptions/InvariantError');
-const CreatedThread = require('../../Domains/threads/entities/CreatedThread');
-const ThreadRepository = require('../../Domains/threads/ThreadRepository');
+const CreatedThread = require('../../Domains/threads/thread/entities/CreatedThread');
+const ThreadRepository = require('../../Domains/threads/thread/ThreadRepository');
 
 class ThreadRepositoryPostgres extends ThreadRepository {
   constructor(pool, idGenerator) {

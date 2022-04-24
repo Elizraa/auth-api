@@ -1,8 +1,8 @@
 const ThreadsTableTestHelper = require('../../../../tests/threadsTableTestHelper');
 const UsersTableTestHelper = require('../../../../tests/usersTableTestHelper');
 const InvariantError = require('../../../Commons/exceptions/InvariantError');
-const NewThread = require('../../../Domains/threads/entities/NewThread');
-const CreatedThread = require('../../../Domains/threads/entities/CreatedThread');
+const NewThread = require('../../../Domains/threads/thread/entities/NewThread');
+const CreatedThread = require('../../../Domains/threads/thread/entities/CreatedThread');
 const pool = require('../../database/postgres/pool');
 const ThreadRepositoryPostgres = require('../ThreadRepositoryPostgres');
 

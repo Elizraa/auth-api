@@ -33,10 +33,10 @@ DomainErrorTranslator._dictionaries = {
     'LOGOUT_USER_USE_CASE.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
         'refresh token harus string',
     ),
-    'ADD_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
+    'NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(
         'tidak dapat membuat thread baru karena properti yang dibutuhkan tidak lengkap',
     ),
-    'ADD_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
+    'NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION': new InvariantError(
         'tidak dapat membuat thread baru karena tipe data tidak sesuai',
     ),
     'ADD_COMMENT.NOT_CONTAIN_NEEDED_PROPERTY': new InvariantError(

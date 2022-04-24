@@ -1,7 +1,7 @@
-const ThreadRepository = require('../../../Domains/threads/ThreadRepository');
+const ThreadRepository = require('../../../Domains/threads/thread/ThreadRepository');
 const AddThreadUseCase = require('../AddThreadUseCase');
-const NewThread = require('../../../Domains/threads/entities/NewThread');
-const CreatedThread = require('../../../Domains/threads/entities/CreatedThread');
+const NewThread = require('../../../Domains/threads/thread/entities/NewThread');
+const CreatedThread = require('../../../Domains/threads/thread/entities/CreatedThread');
 
 describe('AddThreadUseCase', () => {
   it('should orchestrating the add thread action correctly', async () => {
