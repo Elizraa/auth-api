@@ -1,6 +1,6 @@
-const NewThread = require('../NewThread');
+const CreateThread = require('../CreateThread');
 
-describe('a NewThread entities', () => {
+describe('a CreateThread entities', () => {
 
   it('should throw error when payload did not contain needed property', () => {
     // Arrange
@@ -10,7 +10,7 @@ describe('a NewThread entities', () => {
     };
 
     // Action and Assert
-    expect(() => new NewThread(userIdPayload, payload)).toThrowError('NEW_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
+    expect(() => new CreateThread(userIdPayload, payload)).toThrowError('CREATE_THREAD.NOT_CONTAIN_NEEDED_PROPERTY');
   });
 
   it('should throw error when payload did not meet data type specification', () => {
@@ -22,7 +22,7 @@ describe('a NewThread entities', () => {
     };
 
     // Action and Assert
-    expect(() => new NewThread(userIdPayload, payload)).toThrowError('NEW_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
+    expect(() => new CreateThread(userIdPayload, payload)).toThrowError('CREATE_THREAD.NOT_MEET_DATA_TYPE_SPECIFICATION');
   });
 
 
@@ -35,10 +35,10 @@ describe('a NewThread entities', () => {
     };
 
     // Action
-    const { userId, title, body } = new NewThread(userIdPayload, payload);
+    const { owner, title, body } = new CreateThread(userIdPayload, payload);
 
     // Assert
-    expect(userId).toEqual(userIdPayload);
+    expect(owner).toEqual(userIdPayload);
     expect(title).toEqual(payload.title);
     expect(body).toEqual(payload.body);
   });

@@ -1,6 +1,6 @@
 const ThreadRepository = require('../../../Domains/threads/thread/ThreadRepository');
 const AddThreadUseCase = require('../AddThreadUseCase');
-const NewThread = require('../../../Domains/threads/thread/entities/NewThread');
+const CreateThread = require('../../../Domains/threads/thread/entities/CreateThread');
 const CreatedThread = require('../../../Domains/threads/thread/entities/CreatedThread');
 
 describe('AddThreadUseCase', () => {
@@ -12,7 +12,7 @@ describe('AddThreadUseCase', () => {
       body: 'abc',
     };
 
-    const expectedCreatedThread = new CreatedThread({id:'thread-123'});
+    const expectedCreatedThread = new CreatedThread({id:'thread-123', title: 'dicoding', owner: 'user-123'});
 
     const mockThreadRepository = new ThreadRepository();
     /** mocking needed function */
@@ -29,7 +29,7 @@ describe('AddThreadUseCase', () => {
 
     // Assert
     expect(createdThread).toStrictEqual(expectedCreatedThread);
-    expect(mockThreadRepository.addThread).toBeCalledWith(new NewThread('user-123',{
+    expect(mockThreadRepository.addThread).toBeCalledWith(new CreateThread('user-123',{
       title: 'dicoding',
       body: 'abc',
     }));
