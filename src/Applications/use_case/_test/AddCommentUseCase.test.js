@@ -8,7 +8,7 @@ describe('CreatCommentUseCase', () => {
     /**
      * Menguji apakah use case mampu mengoskestrasikan langkah demi langkah dengan benar.
      */
-    it('should orchestrating the creat comment action correctly', async () => {
+    it('should orchestrating the create comment action correctly', async () => {
         // Arrange
         const useCasePayload = {
             threadId: 'thread-123',
@@ -27,7 +27,7 @@ describe('CreatCommentUseCase', () => {
         const mockThreadRepository = new ThreadRepository();
 
         /** mocking needed function */
-        mockCommentRepository.createComment = jest.fn(() =>
+        mockCommentRepository.addComment = jest.fn(() =>
             Promise.resolve(expectedCreatedThread),
         );
         mockThreadRepository.verifyThreadExist = jest.fn(() =>
@@ -45,7 +45,7 @@ describe('CreatCommentUseCase', () => {
 
         // Assert
         expect(createdThread).toStrictEqual(expectedCreatedThread);
-        expect(mockCommentRepository.createComment).toBeCalledWith(
+        expect(mockCommentRepository.addComment).toBeCalledWith(
             new CreateComment({
                 threadId: 'thread-123',
                 content: 'Tentang cerita dulu',

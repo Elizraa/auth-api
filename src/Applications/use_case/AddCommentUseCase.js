@@ -11,7 +11,7 @@ class CreateCommentUseCase {
 
         await this._threadRepository.verifyThreadExist(useCasePayload.threadId);
 
-        return this._commentRepository.createComment(createComment);
+        return this._commentRepository.addComment(createComment);
     }
 }
 
