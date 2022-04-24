@@ -1,7 +1,9 @@
 const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 const ClientError = require('../../Commons/exceptions/ClientError');
 const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
 const users = require('../../Interfaces/http/api/users');
+const threads = require('../../Interfaces/http/api/threads');
 const authentications = require('../../Interfaces/http/api/authentications');
 
 const createServer = async (container) => {
@@ -9,6 +11,32 @@ const createServer = async (container) => {
     host: process.env.HOST,
     port: process.env.PORT,
   });
+
+    // Register JWT plugin
+  await server.register([
+    {
+        plugin: Jwt,
+    },
+  ]);
+
+  const jwtStrategy = {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+        aud: false,
+        iss: false,
+        sub: false,
+        maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+    },
+    validate: (artifacts) => ({
+        isValid: true,
+        credentials: {
+            id: artifacts.decoded.payload.id,
+        },
+    }),
+  };
+
+  // JWT strategy
+  server.auth.strategy('forumapi_jwt', 'jwt', jwtStrategy);
 
   await server.register([
     {
@@ -19,16 +47,20 @@ const createServer = async (container) => {
       plugin: authentications,
       options: { container },
     },
+    {
+      plugin: threads,
+      options: { container },
+    }
   ]);
 
   server.ext('onPreResponse', (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;
-
+    
     if (response instanceof Error) {
       // bila response tersebut error, tangani sesuai kebutuhan
       const translatedError = DomainErrorTranslator.translate(response);
-
+      
       // penanganan client error secara internal.
       if (translatedError instanceof ClientError) {
         const newResponse = h.response({
@@ -43,7 +75,6 @@ const createServer = async (container) => {
       if (!translatedError.isServer) {
         return h.continue;
       }
-
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
         status: 'error',

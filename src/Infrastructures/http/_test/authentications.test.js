@@ -201,7 +201,7 @@ describe('/authentications endpoint', () => {
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
-      expect(responseJson.message).toEqual('harus mengirimkan token refresh');
+      expect(responseJson.message).toEqual('harus mengirimkan refresh token');
     });
 
     it('should return 400 if refresh token not string', async () => {
@@ -269,20 +269,37 @@ describe('/authentications endpoint', () => {
     it('should response 200 if refresh token valid', async () => {
       // Arrange
       const server = await createServer(container);
-      const refreshToken = 'refresh_token';
-      await AuthenticationsTableTestHelper.addToken(refreshToken);
+      await server.inject({
+        method: 'POST',
+        url: '/users',
+        payload: {
+          username: 'dicoding',
+          password: 'asd',
+          fullname: 'Dicoding Indonesia',
+        },
+      });
+
+      const loginReponse = await server.inject({
+          method: 'POST',
+          url: '/authentications',
+          payload: {
+              username: 'dicoding',
+              password: 'asd',
+          },
+      });
+
+      const { refreshToken } = JSON.parse(loginReponse.payload).data;
 
       // Action
       const response = await server.inject({
-        method: 'DELETE',
-        url: '/authentications',
-        payload: {
-          refreshToken,
-        },
+          method: 'DELETE',
+          url: '/authentications',
+          payload: { refreshToken },
       });
 
       // Assert
       const responseJson = JSON.parse(response.payload);
+      console.log(responseJson);
       expect(response.statusCode).toEqual(200);
       expect(responseJson.status).toEqual('success');
     });
@@ -322,7 +339,7 @@ describe('/authentications endpoint', () => {
       const responseJson = JSON.parse(response.payload);
       expect(response.statusCode).toEqual(400);
       expect(responseJson.status).toEqual('fail');
-      expect(responseJson.message).toEqual('harus mengirimkan token refresh');
+      expect(responseJson.message).toEqual('harus mengirimkan refresh token');
     });
 
     it('should response 400 if refresh token not string', async () => {
