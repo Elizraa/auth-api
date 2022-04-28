@@ -11,7 +11,7 @@ class CreateReplyUseCase {
 
     await this._commentRepository.verifyCommentExist(useCasePayload);
 
-    return this._replyRepository.createReply(createReply);
+    return this._replyRepository.addReply(createReply);
   }
 }
 

@@ -10,7 +10,6 @@ describe("HTTP server", () => {
       method: "GET",
       url: "/unregisteredRoute",
     });
-
     // Assert
     expect(response.statusCode).toEqual(404);
   });

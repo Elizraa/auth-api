@@ -7,10 +7,11 @@ const ThreadsTableTestHelper = {
     { title = "dicoding", body = "abc", owner = "user-123" }
   ) {
     let id;
-    if (threadId === undefined) {
+    if (threadId) {
+      id = threadId;
+    } else {
       id = "thread-123";
     }
-    id = threadId;
     const query = {
       text: "INSERT INTO Threads VALUES($1, $2, $3, $4)",
       values: [id, owner, title, body],
