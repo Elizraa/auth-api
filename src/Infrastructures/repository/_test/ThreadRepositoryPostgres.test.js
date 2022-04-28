@@ -67,14 +67,14 @@ describe("ThreadRepositoryPostgres", () => {
     });
   });
 
-  describe("getThreadDetailById", () => {
+  describe("getThreadDetaislById", () => {
     it("should throw InvariantError when thread not found", () => {
       // Arrange
       const threadRepositoryPostgres = new ThreadRepositoryPostgres(pool, {});
 
       // Action & Assert
       return expect(
-        threadRepositoryPostgres.getThreadDetailById("thread-321")
+        threadRepositoryPostgres.getThreadDetailsById("thread-321")
       ).rejects.toThrowError(InvariantError);
     });
 
@@ -87,16 +87,19 @@ describe("ThreadRepositoryPostgres", () => {
       );
       await UsersTableTestHelper.addUser({ id: "user-123" }); // memasukan user baru dengan username dicoding
       const newThread = new CreateThread("user-123", {
-        title: "dicoding",
+        title: "dicodingThread",
         body: "abc",
       });
       await threadRepositoryPostgres.addThread(newThread);
-
       // Action & Assert
-      const detail = await threadRepositoryPostgres.getThreadDetailById(
-        "thread-123"
-      );
-      expect(detail.body).toBe("abc");
+      const detail = await threadRepositoryPostgres.getThreadDetailsById({
+        threadId: "thread-123",
+      });
+      expect(detail).toHaveProperty("id", "thread-123");
+      expect(detail).toHaveProperty("title", "dicodingThread");
+      expect(detail).toHaveProperty("body", "abc");
+      expect(detail).toHaveProperty("username", "dicoding");
+      expect(detail).toHaveProperty("date");
     });
   });
 

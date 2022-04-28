@@ -452,4 +452,329 @@ describe("/threads endpoint", () => {
       expect(responseJson.message).toEqual("balasan tidak ditemukan");
     });
   });
+  describe("when GET /threads/{threadId}", () => {
+    const threadId = "thread-123";
+    it("should response 200 and persisted thread details without comments", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(0);
+    });
+
+    it("should response 200 and persisted thread details with comments", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+      await CommentsTableTestHelper.addComment({});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "id",
+        "comment-123"
+      );
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "content",
+        "Tentang cerita dulu"
+      );
+      expect(responseJson.data.thread.comments[0].date).toBeDefined();
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toHaveLength(0);
+    });
+
+    it("should response 200 and persisted thread details with comments and replies", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "id",
+        "comment-123"
+      );
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "content",
+        "Tentang cerita dulu"
+      );
+      expect(responseJson.data.thread.comments[0].date).toBeDefined();
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "id",
+        "reply-123"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "content",
+        "Hai, apa kabar"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "date"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+    });
+
+    it("should response 200 and persisted thread details with deleted comments and exist replies", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
+      await CommentsTableTestHelper.deleteComment({});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "id",
+        "comment-123"
+      );
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "content",
+        "**komentar telah dihapus**"
+      );
+      expect(responseJson.data.thread.comments[0].date).toBeDefined();
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "id",
+        "reply-123"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "content",
+        "Hai, apa kabar"
+      );
+      expect(
+        responseJson.data.thread.comments[0].replies[0].date
+      ).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+    });
+
+    it("should response 200 and persisted thread details with exist comments and deleted replies", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
+      await RepliesTableTestHelper.deleteReply({});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "id",
+        "comment-123"
+      );
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "content",
+        "Tentang cerita dulu"
+      );
+      expect(responseJson.data.thread.comments[0].date).toBeDefined();
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "id",
+        "reply-123"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "content",
+        "**balasan telah dihapus**"
+      );
+      expect(
+        responseJson.data.thread.comments[0].replies[0].date
+      ).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+    });
+
+    it("should response 200 and persisted thread details with deleted comments and deleted replies", async () => {
+      // Arrange
+      await ThreadsTableTestHelper.addThread(threadId, {});
+      await CommentsTableTestHelper.addComment({});
+      await RepliesTableTestHelper.addReply({});
+      await CommentsTableTestHelper.deleteComment({});
+      await RepliesTableTestHelper.deleteReply({});
+
+      const server = await createServer(container);
+
+      // Action
+      const response = await server.inject({
+        method: "GET",
+        url: `/threads/${threadId}`,
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(200);
+      expect(responseJson.status).toEqual("success");
+      expect(responseJson.data.thread).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("id", "thread-123");
+      expect(responseJson.data.thread).toHaveProperty("title", "dicoding");
+      expect(responseJson.data.thread).toHaveProperty("body", "abc");
+      expect(responseJson.data.thread.date).toBeDefined();
+      expect(responseJson.data.thread).toHaveProperty("username", "dicoding");
+      expect(responseJson.data.thread.comments).toBeDefined();
+      expect(responseJson.data.thread.comments).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "id",
+        "comment-123"
+      );
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "content",
+        "**komentar telah dihapus**"
+      );
+      expect(responseJson.data.thread.comments[0].date).toBeDefined();
+      expect(responseJson.data.thread.comments[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+      expect(responseJson.data.thread.comments[0].replies).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies).toHaveLength(1);
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "id",
+        "reply-123"
+      );
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "content",
+        "**balasan telah dihapus**"
+      );
+      expect(
+        responseJson.data.thread.comments[0].replies[0].date
+      ).toBeDefined();
+      expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
+        "username",
+        "dicoding"
+      );
+    });
+
+    it("should response 404 when thread is not exist", async () => {
+      // Arrange
+
+      const server = await createServer(container);
+
+      // Action
+
+      const response = await server.inject({
+        method: "GET",
+        url: "/threads/thread-123",
+      });
+
+      // Assert
+      const responseJson = JSON.parse(response.payload);
+      expect(response.statusCode).toEqual(404);
+      expect(responseJson.status).toEqual("fail");
+      expect(responseJson.message).toEqual("thread tidak ditemukan");
+    });
+  });
 });

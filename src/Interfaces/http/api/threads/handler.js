@@ -1,6 +1,5 @@
 const AddThreadUseCase = require("../../../../Applications/use_case/AddThreadUseCase");
-// const GetThreadDetailsUseCase =
-// require('../../../../Applications/use_case/GetThreadDetailsUseCase');
+const GetThreadDetailsUseCase = require("../../../../Applications/use_case/GetThreadDetailsUseCase");
 const DeleteCommentUseCase = require("../../../../Applications/use_case/DeleteCommentUseCase");
 const AddCommentUseCase = require("../../../../Applications/use_case/AddCommentUseCase");
 const DeleteReplyUseCase = require("../../../../Applications/use_case/DeleteReplyUseCase");
@@ -15,6 +14,7 @@ class ThreadsHandler {
     this.deleteCommentByIdHandler = this.deleteCommentByIdHandler.bind(this);
     this.postReplyHandler = this.postReplyHandler.bind(this);
     this.deleteReplyByIdHandler = this.deleteReplyByIdHandler.bind(this);
+    this.getThreadByIdHandler = this.getThreadByIdHandler.bind(this);
   }
 
   async postThreadHandler(request, h) {
@@ -116,6 +116,24 @@ class ThreadsHandler {
     const response = h.response({
       status: "success",
       message: "berhasil menghapus balasan",
+    });
+
+    response.code(200);
+    return response;
+  }
+
+  async getThreadByIdHandler(requet, h) {
+    const { threadId } = requet.params;
+    const getThreadDetailsUseCase = this._container.getInstance(
+      GetThreadDetailsUseCase.name
+    );
+    const thread = await getThreadDetailsUseCase.execute({ threadId });
+    const response = h.response({
+      status: "success",
+      message: "berhasil mendapatkan rincian thread",
+      data: {
+        thread,
+      },
     });
 
     response.code(200);
