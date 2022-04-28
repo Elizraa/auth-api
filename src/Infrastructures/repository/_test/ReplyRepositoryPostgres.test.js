@@ -61,7 +61,7 @@ describe("ReplyRepositoryPostgres", () => {
       await CommentsTableTestHelper.addComment({});
       const createReply = new CreateReply({
         commentId: "comment-123",
-        content: "Hai, apa kabar",
+        content: "Content isi reply",
         owner: "user-123",
       });
 
@@ -79,7 +79,7 @@ describe("ReplyRepositoryPostgres", () => {
       expect(reply).toHaveLength(1);
       expect(reply[0]).toHaveProperty("id", "reply-123");
       expect(reply[0]).toHaveProperty("commentid", "comment-123");
-      expect(reply[0]).toHaveProperty("content", "Hai, apa kabar");
+      expect(reply[0]).toHaveProperty("content", "Content isi reply");
       expect(reply[0]).toHaveProperty("owner", "user-123");
       expect(reply[0]).toHaveProperty("is_deleted", false);
       expect(reply[0]).toHaveProperty("date");
@@ -91,7 +91,7 @@ describe("ReplyRepositoryPostgres", () => {
       await CommentsTableTestHelper.addComment({});
       const createReply = new CreateReply({
         commentId: "comment-123",
-        content: "Hai, apa kabar",
+        content: "Content isi reply",
         owner: "user-123",
       });
 
@@ -108,7 +108,7 @@ describe("ReplyRepositoryPostgres", () => {
       expect(createdReply).toStrictEqual(
         new CreatedReply({
           id: "reply-123",
-          content: "Hai, apa kabar",
+          content: "Content isi reply",
           owner: "user-123",
         })
       );
@@ -151,7 +151,7 @@ describe("ReplyRepositoryPostgres", () => {
       expect(replies[0]).toHaveProperty("id", "reply-123");
       expect(replies[0]).toHaveProperty("is_deleted", false);
       expect(replies[0]).toHaveProperty("commentid", "comment-123");
-      expect(replies[0]).toHaveProperty("content", "Hai, apa kabar");
+      expect(replies[0]).toHaveProperty("content", "Content isi reply");
       expect(replies[0]).toHaveProperty("username", "dicoding");
       expect(replies[0]).toHaveProperty("date");
     });

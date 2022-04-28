@@ -5,7 +5,7 @@ const CommentsTableTestHelper = {
   async addComment({
     id = "comment-123",
     threadId = "thread-123",
-    content = "Tentang cerita dulu",
+    content = "Content isi comment",
     owner = "user-123",
   }) {
     const query = {

@@ -26,14 +26,14 @@ describe("GetThreadDetailsUseCase", () => {
       comments: [
         new CommentDetail({
           id: "comment-123",
-          content: "Tentang cerita dulu",
+          content: "Content isi comment",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: false,
           replies: [
             new ReplyDetail({
               id: "reply-123",
-              content: "Hai, apa kabar",
+              content: "Content isi reply",
               date: "2021-08-08T07:19:09.775Z",
               username: "dicoding",
               is_deleted: true,
@@ -42,14 +42,14 @@ describe("GetThreadDetailsUseCase", () => {
         }),
         new CommentDetail({
           id: "comment-124",
-          content: "Tentang cerita dulu",
+          content: "Content isi comment",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: true,
           replies: [
             new ReplyDetail({
               id: "reply-124",
-              content: "Hai, apa kabar",
+              content: "Content isi reply",
               date: "2021-08-08T07:19:09.775Z",
               username: "dicoding",
               is_deleted: false,
@@ -81,7 +81,7 @@ describe("GetThreadDetailsUseCase", () => {
         {
           id: "comment-123",
           thread_id: "thread-123",
-          content: "Tentang cerita dulu",
+          content: "Content isi comment",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: false,
@@ -89,7 +89,7 @@ describe("GetThreadDetailsUseCase", () => {
         {
           id: "comment-124",
           thread_id: "thread-123",
-          content: "Tentang cerita dulu",
+          content: "Content isi comment",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: true,
@@ -102,7 +102,7 @@ describe("GetThreadDetailsUseCase", () => {
         {
           id: "reply-123",
           commentid: "comment-123",
-          content: "Hai, apa kabar",
+          content: "Content isi reply",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: true,
@@ -110,7 +110,7 @@ describe("GetThreadDetailsUseCase", () => {
         {
           id: "reply-124",
           commentid: "comment-124",
-          content: "Hai, apa kabar",
+          content: "Content isi reply",
           date: "2021-08-08T07:19:09.775Z",
           username: "dicoding",
           is_deleted: false,

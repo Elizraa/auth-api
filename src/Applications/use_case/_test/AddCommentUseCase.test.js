@@ -12,13 +12,13 @@ describe("CreatCommentUseCase", () => {
     // Arrange
     const useCasePayload = {
       threadId: "thread-123",
-      content: "Tentang cerita dulu",
+      content: "Content isi comment",
       owner: "user-123",
     };
 
     const expectedCreatedThread = new CreatedComment({
       id: "comment-123",
-      content: "Tentang cerita dulu",
+      content: "Content isi comment",
       owner: "user-123",
     });
 
@@ -46,7 +46,7 @@ describe("CreatCommentUseCase", () => {
     expect(mockCommentRepository.addComment).toBeCalledWith(
       new CreateComment({
         threadId: "thread-123",
-        content: "Tentang cerita dulu",
+        content: "Content isi comment",
         owner: "user-123",
       })
     );

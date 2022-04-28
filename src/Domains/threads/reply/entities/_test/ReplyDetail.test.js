@@ -17,7 +17,7 @@ describe('a ReplyDetail entities', () => {
         // Arrange
         const payload = {
             id: 123,
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             date: '2021-08-08T07:19:09.775Z',
             username: [],
             is_deleted: {},
@@ -33,7 +33,7 @@ describe('a ReplyDetail entities', () => {
         // Arrange
         const payload = {
             id: 'reply-123',
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             date: '2021-08-08T07:19:09.775Z',
             username: 'dicoding',
             is_deleted: false,
@@ -53,7 +53,7 @@ describe('a ReplyDetail entities', () => {
         // Arrange
         const payload = {
             id: 'reply-123',
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             date: '2021-08-08T07:19:09.775Z',
             username: 'dicoding',
             is_deleted: true,

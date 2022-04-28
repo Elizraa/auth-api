@@ -4,7 +4,7 @@ describe('an CreateReply entities', () => {
     it('should throw error when payload did not contain needed property', () => {
         // Arrange
         const payload = {
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             owner: 'user-123',
         };
 
@@ -32,7 +32,7 @@ describe('an CreateReply entities', () => {
         // Arrange
         const payload = {
             commentId: 'reply-123',
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             owner: 'user-123',
         };
 

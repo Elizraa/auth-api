@@ -60,7 +60,7 @@ describe("CommentRepositoryPostgres", () => {
       await ThreadsTableTestHelper.addThread(undefined, {});
       const createComment = new CreateComment({
         threadId: "thread-123",
-        content: "Tentang cerita dulu",
+        content: "Content isi comment",
         owner: "user-123",
       });
 
@@ -80,7 +80,7 @@ describe("CommentRepositoryPostgres", () => {
       expect(comment).toHaveLength(1);
       expect(comment[0]).toHaveProperty("id", "comment-123");
       expect(comment[0]).toHaveProperty("threadid", "thread-123");
-      expect(comment[0]).toHaveProperty("content", "Tentang cerita dulu");
+      expect(comment[0]).toHaveProperty("content", "Content isi comment");
       expect(comment[0]).toHaveProperty("owner", "user-123");
       expect(comment[0]).toHaveProperty("is_deleted", false);
       expect(comment[0]).toHaveProperty("date");
@@ -91,7 +91,7 @@ describe("CommentRepositoryPostgres", () => {
       await ThreadsTableTestHelper.addThread(undefined, {});
       const createComment = new CreateComment({
         threadId: "thread-123",
-        content: "Hai, apa kabar",
+        content: "Content isi reply",
         owner: "user-123",
       });
 
@@ -110,7 +110,7 @@ describe("CommentRepositoryPostgres", () => {
       expect(createdComment).toStrictEqual(
         new CreatedComment({
           id: "comment-123",
-          content: "Hai, apa kabar",
+          content: "Content isi reply",
           owner: "user-123",
         })
       );
@@ -150,7 +150,7 @@ describe("CommentRepositoryPostgres", () => {
       expect(comments).toHaveLength(1);
       expect(comments[0]).toHaveProperty("id", "comment-123");
       expect(comments[0]).toHaveProperty("threadid", "thread-123");
-      expect(comments[0]).toHaveProperty("content", "Tentang cerita dulu");
+      expect(comments[0]).toHaveProperty("content", "Content isi comment");
       expect(comments[0]).toHaveProperty("username", "dicoding");
       expect(comments[0]).toHaveProperty("is_deleted", false);
       expect(comments[0]).toHaveProperty("date");

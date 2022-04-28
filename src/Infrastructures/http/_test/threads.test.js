@@ -123,7 +123,7 @@ describe("/threads endpoint", () => {
     it("should response 201 and persisted comment", async () => {
       // Arrange
       const requestPayload = {
-        content: "Tentang cerita dulu",
+        content: "Content isi comment",
       };
       await ThreadsTableTestHelper.addThread(threadId, {});
 
@@ -146,7 +146,7 @@ describe("/threads endpoint", () => {
       expect(responseJson.data.addedComment).toBeDefined();
       expect(responseJson.data.addedComment).toHaveProperty(
         "content",
-        "Tentang cerita dulu"
+        "Content isi comment"
       );
       expect(responseJson.data.addedComment.id).toBeDefined();
       expect(responseJson.data.addedComment.owner).toBeDefined();
@@ -211,7 +211,7 @@ describe("/threads endpoint", () => {
     it("should response 404 when thread is not exist", async () => {
       // Arrange
       const requestPayload = {
-        content: "Tentang cerita dulu",
+        content: "Content isi comment",
       };
 
       const server = await createServer(container);
@@ -289,7 +289,7 @@ describe("/threads endpoint", () => {
     it("should response 201 and persisted reply", async () => {
       // Arrange
       const requestPayload = {
-        content: "Hai, apa kabar",
+        content: "Content isi reply",
       };
       await ThreadsTableTestHelper.addThread(threadId, {});
       const commentId = "comment-123";
@@ -312,7 +312,7 @@ describe("/threads endpoint", () => {
       expect(responseJson.data.addedReply).toBeDefined();
       expect(responseJson.data.addedReply).toHaveProperty(
         "content",
-        "Hai, apa kabar"
+        "Content isi reply"
       );
       expect(responseJson.data.addedReply.id).toBeDefined();
       expect(responseJson.data.addedReply.content).toBeDefined();
@@ -379,7 +379,7 @@ describe("/threads endpoint", () => {
     it("should response 404 when comment is not exist", async () => {
       // Arrange
       const requestPayload = {
-        content: "Hai, apa kabar",
+        content: "Content isi reply",
       };
       const server = await createServer(container);
 
@@ -511,7 +511,7 @@ describe("/threads endpoint", () => {
       );
       expect(responseJson.data.thread.comments[0]).toHaveProperty(
         "content",
-        "Tentang cerita dulu"
+        "Content isi comment"
       );
       expect(responseJson.data.thread.comments[0].date).toBeDefined();
       expect(responseJson.data.thread.comments[0]).toHaveProperty(
@@ -554,7 +554,7 @@ describe("/threads endpoint", () => {
       );
       expect(responseJson.data.thread.comments[0]).toHaveProperty(
         "content",
-        "Tentang cerita dulu"
+        "Content isi comment"
       );
       expect(responseJson.data.thread.comments[0].date).toBeDefined();
       expect(responseJson.data.thread.comments[0]).toHaveProperty(
@@ -569,7 +569,7 @@ describe("/threads endpoint", () => {
       );
       expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
         "content",
-        "Hai, apa kabar"
+        "Content isi reply"
       );
       expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
         "date"
@@ -628,7 +628,7 @@ describe("/threads endpoint", () => {
       );
       expect(responseJson.data.thread.comments[0].replies[0]).toHaveProperty(
         "content",
-        "Hai, apa kabar"
+        "Content isi reply"
       );
       expect(
         responseJson.data.thread.comments[0].replies[0].date
@@ -672,7 +672,7 @@ describe("/threads endpoint", () => {
       );
       expect(responseJson.data.thread.comments[0]).toHaveProperty(
         "content",
-        "Tentang cerita dulu"
+        "Content isi comment"
       );
       expect(responseJson.data.thread.comments[0].date).toBeDefined();
       expect(responseJson.data.thread.comments[0]).toHaveProperty(

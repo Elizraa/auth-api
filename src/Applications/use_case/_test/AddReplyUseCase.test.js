@@ -13,13 +13,13 @@ describe("AddReplyUseCase", () => {
     const useCasePayload = {
       threadId: "thread-123",
       commentId: "comment-123",
-      content: "Tentang cerita dulu",
+      content: "Content isi comment",
       owner: "user-123",
     };
 
     const expectedCreatedReply = new CreatedReply({
       id: "reply-123",
-      content: "Tentang cerita dulu",
+      content: "Content isi comment",
       owner: "user-123",
     });
 
@@ -47,7 +47,7 @@ describe("AddReplyUseCase", () => {
     expect(mockReplyRepository.addReply).toBeCalledWith(
       new CreateReply({
         commentId: "comment-123",
-        content: "Tentang cerita dulu",
+        content: "Content isi comment",
         owner: "user-123",
       })
     );

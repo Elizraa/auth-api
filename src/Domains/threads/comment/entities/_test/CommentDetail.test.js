@@ -17,7 +17,7 @@ describe('a CommentDetail entities', () => {
         // Arrange
         const payload = {
             id: 123,
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             date: '2021-08-08T07:19:09.775Z',
             username: [],
             is_deleted: '',
@@ -34,7 +34,7 @@ describe('a CommentDetail entities', () => {
         // Arrange
         const payload = {
             id: 'comment-123',
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             date: '2021-08-08T07:19:09.775Z',
             username: 'dicoding',
             is_deleted: false,
@@ -58,7 +58,7 @@ describe('a CommentDetail entities', () => {
         // Arrange
         const payload = {
             id: 'comment-123',
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             date: '2021-08-08T07:19:09.775Z',
             username: 'dicoding',
             is_deleted: true,

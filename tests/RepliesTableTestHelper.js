@@ -5,7 +5,7 @@ const RepliesTableTestHelper = {
   async addReply({
     id = "reply-123",
     commentId = "comment-123",
-    content = "Hai, apa kabar",
+    content = "Content isi reply",
     owner = "user-123",
   }) {
     const query = {

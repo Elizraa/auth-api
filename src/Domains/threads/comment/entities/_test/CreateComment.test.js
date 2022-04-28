@@ -4,7 +4,7 @@ describe('an CreateComment entities', () => {
     it('should throw error when payload did not contain needed property', () => {
         // Arrange
         const payload = {
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             owner: 'user-123',
         };
 
@@ -32,7 +32,7 @@ describe('an CreateComment entities', () => {
         // Arrange
         const payload = {
             threadId: 'thread-123',
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             owner: 'user-123',
         };
 

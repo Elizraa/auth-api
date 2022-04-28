@@ -5,7 +5,7 @@ describe('an CreatedReply entities', () => {
         // Arrange
         const payload = {
             id: 'reply-123',
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
         };
 
         // Action and Assert
@@ -28,7 +28,7 @@ describe('an CreatedReply entities', () => {
         // Arrange
         const payload = {
             id: 'reply-123',
-            content: 'Hai, apa kabar',
+            content: 'Content isi reply',
             owner: 'user-123',
         };
 

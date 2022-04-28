@@ -5,7 +5,7 @@ describe('an CreatedComment entities', () => {
         // Arrange
         const payload = {
             id: 'thread-123',
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
         };
 
         // Action and Assert
@@ -30,7 +30,7 @@ describe('an CreatedComment entities', () => {
         // Arrange
         const payload = {
             id: 'thread-123',
-            content: 'Tentang cerita dulu',
+            content: 'Content isi comment',
             owner: 'user-123',
         };
 
