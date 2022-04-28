@@ -1,10 +1,10 @@
-const AddThreadUseCase = require('../../../../Applications/use_case/AddThreadUseCase');
+const AddThreadUseCase = require("../../../../Applications/use_case/AddThreadUseCase");
 // const GetThreadDetailsUseCase =
 // require('../../../../Applications/use_case/GetThreadDetailsUseCase');
-const DeleteCommentUseCase = require('../../../../Applications/use_case/DeleteCommentUseCase');
-const AddCommentUseCase = require('../../../../Applications/use_case/AddCommentUseCase');
+const DeleteCommentUseCase = require("../../../../Applications/use_case/DeleteCommentUseCase");
+const AddCommentUseCase = require("../../../../Applications/use_case/AddCommentUseCase");
 // const DeleteReplyUseCase = require('../../../../Applications/use_case/DeleteReplyUseCase');
-// const AddReplyUseCase = require('../../../../Applications/use_case/AddReplyUseCase');
+const AddReplyUseCase = require("../../../../Applications/use_case/AddReplyUseCase");
 
 class ThreadsHandler {
   constructor(container) {
@@ -21,7 +21,7 @@ class ThreadsHandler {
     const addedThread = await addThreadUseCase.execute(owner, request.payload);
 
     const response = h.response({
-      status: 'success',
+      status: "success",
       data: {
         addedThread,
       },
@@ -35,11 +35,17 @@ class ThreadsHandler {
     const { id: owner } = request.auth.credentials;
     const { threadId } = request.params;
 
-    const addCommentUseCase = this._container.getInstance(AddCommentUseCase.name);
-    const addedComment = await addCommentUseCase.execute({ content, owner, threadId });
+    const addCommentUseCase = this._container.getInstance(
+      AddCommentUseCase.name
+    );
+    const addedComment = await addCommentUseCase.execute({
+      content,
+      owner,
+      threadId,
+    });
     const response = h.response({
-      status: 'success',
-      message: 'berhasil menambahkan komentar',
+      status: "success",
+      message: "berhasil menambahkan komentar",
       data: {
         addedComment,
       },
@@ -53,15 +59,42 @@ class ThreadsHandler {
     const { threadId, commentId } = request.params;
     const { id: owner } = request.auth.credentials;
 
-    const deleteCommentUseCase = this._container.getInstance(DeleteCommentUseCase.name);
+    const deleteCommentUseCase = this._container.getInstance(
+      DeleteCommentUseCase.name
+    );
     await deleteCommentUseCase.execute({ threadId, commentId, owner });
 
     const response = h.response({
-      status: 'success',
-      message: 'berhasil menghapus komentar',
+      status: "success",
+      message: "berhasil menghapus komentar",
     });
 
     response.code(200);
+    return response;
+  }
+
+  async postReplyHandler(request, h) {
+    const { content } = request.payload;
+    const { id: owner } = request.auth.credentials;
+    const { threadId, commentId } = request.params;
+
+    const addReplyUseCase = this._container.getInstance(AddReplyUseCase.name);
+    const addedReply = await addReplyUseCase.execute({
+      content,
+      owner,
+      threadId,
+      commentId,
+    });
+
+    const response = h.response({
+      status: "success",
+      message: "berhasil menambahkan balasan",
+      data: {
+        addedReply,
+      },
+    });
+
+    response.code(201);
     return response;
   }
 }

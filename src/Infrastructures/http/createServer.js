@@ -1,10 +1,10 @@
-const Hapi = require('@hapi/hapi');
-const Jwt = require('@hapi/jwt');
-const ClientError = require('../../Commons/exceptions/ClientError');
-const DomainErrorTranslator = require('../../Commons/exceptions/DomainErrorTranslator');
-const users = require('../../Interfaces/http/api/users');
-const threads = require('../../Interfaces/http/api/threads');
-const authentications = require('../../Interfaces/http/api/authentications');
+const Hapi = require("@hapi/hapi");
+const Jwt = require("@hapi/jwt");
+const ClientError = require("../../Commons/exceptions/ClientError");
+const DomainErrorTranslator = require("../../Commons/exceptions/DomainErrorTranslator");
+const users = require("../../Interfaces/http/api/users");
+const threads = require("../../Interfaces/http/api/threads");
+const authentications = require("../../Interfaces/http/api/authentications");
 
 const createServer = async (container) => {
   const server = Hapi.server({
@@ -12,31 +12,31 @@ const createServer = async (container) => {
     port: process.env.PORT,
   });
 
-    // Register JWT plugin
+  // Register JWT plugin
   await server.register([
     {
-        plugin: Jwt,
+      plugin: Jwt,
     },
   ]);
 
   const jwtStrategy = {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
-        aud: false,
-        iss: false,
-        sub: false,
-        maxAgeSec: process.env.ACCESS_TOKEN_AGE,
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE,
     },
     validate: (artifacts) => ({
-        isValid: true,
-        credentials: {
-            id: artifacts.decoded.payload.id,
-        },
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id,
+      },
     }),
   };
 
   // JWT strategy
-  server.auth.strategy('forumapi_jwt', 'jwt', jwtStrategy);
+  server.auth.strategy("forumapi_jwt", "jwt", jwtStrategy);
 
   await server.register([
     {
@@ -50,21 +50,21 @@ const createServer = async (container) => {
     {
       plugin: threads,
       options: { container },
-    }
+    },
   ]);
 
-  server.ext('onPreResponse', (request, h) => {
+  server.ext("onPreResponse", (request, h) => {
     // mendapatkan konteks response dari request
     const { response } = request;
-    
+
     if (response instanceof Error) {
       // bila response tersebut error, tangani sesuai kebutuhan
       const translatedError = DomainErrorTranslator.translate(response);
-      
+
       // penanganan client error secara internal.
       if (translatedError instanceof ClientError) {
         const newResponse = h.response({
-          status: 'fail',
+          status: "fail",
           message: translatedError.message,
         });
         newResponse.code(translatedError.statusCode);
@@ -77,8 +77,8 @@ const createServer = async (container) => {
       }
       // penanganan server error sesuai kebutuhan
       const newResponse = h.response({
-        status: 'error',
-        message: 'terjadi kegagalan pada server kami',
+        status: "error",
+        message: "terjadi kegagalan pada server kami",
       });
       newResponse.code(500);
       return newResponse;

@@ -2,39 +2,39 @@
 
 exports.shorthands = undefined;
 
-exports.up = pgm => {
-  pgm.createTable('comments', {
+exports.up = (pgm) => {
+  pgm.createTable("comments", {
     id: {
-      type: 'VARCHAR(50)',
+      type: "VARCHAR(50)",
       primaryKey: true,
     },
     threadid: {
-      type: 'VARCHAR(50)',
+      type: "VARCHAR(50)",
       notNull: true,
       references: '"threads"',
-      onDelete: 'cascade',
+      onDelete: "cascade",
     },
     userid: {
-      type: 'VARCHAR(50)',
+      type: "VARCHAR(50)",
       notNull: true,
       references: '"users"',
-      onDelete: 'cascade',
+      onDelete: "cascade",
     },
-    content: { type: 'text', notNull: true },
+    content: { type: "text", notNull: true },
     date: {
-      type: 'timestamp',
+      type: "timestamp",
       notNull: true,
-      default: pgm.func('current_timestamp'),
+      default: pgm.func("current_timestamp"),
     },
     is_deleted: {
-      type: 'BOOLEAN',
+      type: "BOOLEAN",
       default: false,
     },
-  })
-  pgm.createIndex('comments', 'threadid')
-  pgm.createIndex('comments', 'userid')
+  });
+  pgm.createIndex("comments", "threadid");
+  pgm.createIndex("comments", "userid");
 };
 
-exports.down = pgm => {
-  pgm.dropTable('comments');
+exports.down = (pgm) => {
+  pgm.dropTable("comments");
 };

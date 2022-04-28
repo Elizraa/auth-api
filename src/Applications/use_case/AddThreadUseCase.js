@@ -1,9 +1,7 @@
-const CreateThread = require('../../Domains/threads/thread/entities/CreateThread');
+const CreateThread = require("../../Domains/threads/thread/entities/CreateThread");
 
 class AddThreadUseCase {
-  constructor({
-    threadRepository,
-  }) {
+  constructor({ threadRepository }) {
     this._threadRepository = threadRepository;
   }
 

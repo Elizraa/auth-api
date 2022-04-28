@@ -1,7 +1,7 @@
-const InvariantError = require('../../Commons/exceptions/InvariantError');
-const CreatedThread = require('../../Domains/threads/thread/entities/CreatedThread');
-const NotFoundError = require('../../Commons/exceptions/NotFoundError');
-const ThreadRepository = require('../../Domains/threads/thread/ThreadRepository');
+const InvariantError = require("../../Commons/exceptions/InvariantError");
+const CreatedThread = require("../../Domains/threads/thread/entities/CreatedThread");
+const NotFoundError = require("../../Commons/exceptions/NotFoundError");
+const ThreadRepository = require("../../Domains/threads/thread/ThreadRepository");
 
 class ThreadRepositoryPostgres extends ThreadRepository {
   constructor(pool, idGenerator) {
@@ -14,7 +14,7 @@ class ThreadRepositoryPostgres extends ThreadRepository {
     const { owner, title, body } = newThread;
     const id = `thread-${this._idGenerator()}`;
     const query = {
-      text: 'INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING id',
+      text: "INSERT INTO threads VALUES($1, $2, $3, $4) RETURNING id",
       values: [id, owner, body, title],
     };
     const result = await this._pool.query(query);
@@ -24,14 +24,14 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
   async getThreadDetailById(threadId) {
     const query = {
-      text: 'SELECT id, title, body, date FROM threads WHERE id = $1',
+      text: "SELECT id, title, body, date FROM threads WHERE id = $1",
       values: [threadId],
     };
 
     const result = await this._pool.query(query);
 
     if (!result.rowCount) {
-      throw new InvariantError('thread tidak ditemukan');
+      throw new InvariantError("thread tidak ditemukan");
     }
 
     return result.rows[0];
@@ -39,14 +39,14 @@ class ThreadRepositoryPostgres extends ThreadRepository {
 
   async verifyThreadExist(threadId) {
     const query = {
-        text: 'SELECT id FROM threads WHERE id = $1',
-        values: [threadId],
+      text: "SELECT id FROM threads WHERE id = $1",
+      values: [threadId],
     };
 
     const results = await this._pool.query(query);
 
     if (!results.rowCount) {
-        throw new NotFoundError('thread tidak ditemukan');
+      throw new NotFoundError("thread tidak ditemukan");
     }
   }
 }
