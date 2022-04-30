@@ -29,7 +29,13 @@ describe("AddReplyUseCase", () => {
 
     /** mocking needed function */
     mockReplyRepository.addReply = jest.fn(() =>
-      Promise.resolve(expectedCreatedReply)
+      Promise.resolve(
+        new CreatedReply({
+          id: "reply-123",
+          content: "Content isi comment",
+          owner: "user-123",
+        })
+      )
     );
     mockCommentRepository.verifyCommentExist = jest.fn(() => Promise.resolve());
 

@@ -28,7 +28,13 @@ describe("CreatCommentUseCase", () => {
 
     /** mocking needed function */
     mockCommentRepository.addComment = jest.fn(() =>
-      Promise.resolve(expectedCreatedThread)
+      Promise.resolve(
+        new CreatedComment({
+          id: "comment-123",
+          content: "Content isi comment",
+          owner: "user-123",
+        })
+      )
     );
     mockThreadRepository.verifyThreadExist = jest.fn(() => Promise.resolve());
 

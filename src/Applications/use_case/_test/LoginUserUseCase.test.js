@@ -31,12 +31,22 @@ describe("GetAuthenticationUseCase", () => {
     mockAuthenticationTokenManager.createAccessToken = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve(expectedAuthentication.accessToken)
+        Promise.resolve(
+          new NewAuth({
+            accessToken: "access_token",
+            refreshToken: "refresh_token",
+          }).accessToken
+        )
       );
     mockAuthenticationTokenManager.createRefreshToken = jest
       .fn()
       .mockImplementation(() =>
-        Promise.resolve(expectedAuthentication.refreshToken)
+        Promise.resolve(
+          new NewAuth({
+            accessToken: "access_token",
+            refreshToken: "refresh_token",
+          }).refreshToken
+        )
       );
     mockUserRepository.getIdByUsername = jest
       .fn()
