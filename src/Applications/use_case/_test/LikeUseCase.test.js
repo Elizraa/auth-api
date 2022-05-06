@@ -21,7 +21,7 @@ describe("LikeUseCase", () => {
     /** mocking needed function */
     mockCommentRepository.verifyCommentExist = jest.fn(() => Promise.resolve());
     mockLikeRepository.checkLiked = jest.fn(() => Promise.resolve([]));
-    mockLikeRepository.createLike = jest.fn(() => Promise.resolve());
+    mockLikeRepository.addLike = jest.fn(() => Promise.resolve());
 
     /** creating use case instance */
     const likeUseCase = new LikeUseCase({
@@ -45,7 +45,7 @@ describe("LikeUseCase", () => {
         owner: "user-123",
       })
     );
-    expect(mockLikeRepository.createLike).toBeCalledWith(
+    expect(mockLikeRepository.addLike).toBeCalledWith(
       new Like({
         commentId: "comment-123",
         owner: "user-123",

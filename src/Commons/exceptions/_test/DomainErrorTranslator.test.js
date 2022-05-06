@@ -63,6 +63,15 @@ describe("DomainErrorTranslator", () => {
         )
       )
     ).toStrictEqual(new InvariantError("refresh token harus string"));
+    expect(
+      DomainErrorTranslator.translate(
+        new Error("LIKE.NOT_MEET_DATA_TYPE_SPECIFICATION")
+      )
+    ).toStrictEqual(
+      new InvariantError(
+        "tidak dapat menyukai atau batal menyukai komentar karena tipe data tidak sesuai"
+      )
+    );
   });
 
   it("should return original error when error message is not needed to translate", () => {

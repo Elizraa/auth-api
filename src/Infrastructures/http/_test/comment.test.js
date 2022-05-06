@@ -8,7 +8,7 @@ const RepliesTableTestHelper = require("../../../../tests/RepliesTableTestHelper
 const container = require("../../container");
 const createServer = require("../createServer");
 
-describe("/threads endpoint", () => {
+describe("/comments endpoint", () => {
   afterAll(async () => {
     await pool.end();
   });

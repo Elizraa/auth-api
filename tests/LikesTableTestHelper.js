@@ -42,6 +42,7 @@ const LikesTableTestHelper = {
       values: [commentId],
     };
     const result = await pool.query(query);
+    if (!result.rowCount) return result.rows;
     result.rows[0].owner = result.rows[0].user_id;
     delete result.rows[0].user_id;
     return result.rows;
