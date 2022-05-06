@@ -1,26 +1,32 @@
 exports.up = (pgm) => {
-  pgm.createTable("threads", {
+  pgm.createTable("likes", {
     id: {
       type: "VARCHAR(50)",
       primaryKey: true,
     },
-    userid: {
+    comment_id: {
+      type: "VARCHAR(50)",
+      notNull: true,
+      references: '"comments"',
+      onDelete: "cascade",
+    },
+    user_id: {
       type: "VARCHAR(50)",
       notNull: true,
       references: '"users"',
       onDelete: "cascade",
     },
-    body: { type: "text", notNull: true },
-    title: { type: "text", notNull: true },
     date: {
       type: "timestamp",
       notNull: true,
       default: pgm.func("current_timestamp"),
     },
   });
-  pgm.createIndex("threads", "userid");
+
+  pgm.createIndex("likes", "comment_id");
+  pgm.createIndex("likes", "user_id");
 };
 
 exports.down = (pgm) => {
-  pgm.dropTable("threads");
+  pgm.dropTable("likes");
 };

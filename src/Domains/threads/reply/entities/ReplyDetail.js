@@ -7,7 +7,7 @@ class ReplyDetail {
 
         this.id = id;
         this.content = is_deleted ? '**balasan telah dihapus**' : content;
-        this.date = date;
+        this.date = date.toISOString();
         this.username = username;
     }
 
@@ -19,7 +19,7 @@ class ReplyDetail {
         if (
             typeof id !== 'string' ||
             typeof content !== 'string' ||
-            typeof date !== 'string' ||
+            !(date instanceof Date) ||
             typeof username !== 'string' ||
             typeof is_deleted !== 'boolean'
         ) {

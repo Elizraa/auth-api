@@ -18,9 +18,10 @@ describe('a CommentDetail entities', () => {
         const payload = {
             id: 123,
             content: 'Content isi comment',
-            date: '2021-08-08T07:19:09.775Z',
+            date: new Date('2022-05-05T09:10:15.251Z'),
             username: [],
             is_deleted: '',
+            likeCount: '',
             replies: {},
         };
 
@@ -35,9 +36,10 @@ describe('a CommentDetail entities', () => {
         const payload = {
             id: 'comment-123',
             content: 'Content isi comment',
-            date: '2021-08-08T07:19:09.775Z',
+            date: new Date('2022-05-05T09:10:15.251Z'),
             username: 'dicoding',
             is_deleted: false,
+            likeCount: '',
             replies: [],
         };
 
@@ -49,7 +51,7 @@ describe('a CommentDetail entities', () => {
         // Assert
         expect(id).toEqual(payload.id);
         expect(content).toEqual(payload.content);
-        expect(date).toEqual(payload.date);
+        expect(date).toEqual(payload.date.toISOString());
         expect(username).toEqual(payload.username);
         expect(replies).toStrictEqual(payload.replies);
     });
@@ -59,9 +61,10 @@ describe('a CommentDetail entities', () => {
         const payload = {
             id: 'comment-123',
             content: 'Content isi comment',
-            date: '2021-08-08T07:19:09.775Z',
+            date: new Date('2022-05-05T09:10:15.251Z'),
             username: 'dicoding',
             is_deleted: true,
+            likeCount: '',
             replies: [],
         };
 
@@ -73,7 +76,7 @@ describe('a CommentDetail entities', () => {
         // Assert
         expect(id).toEqual(payload.id);
         expect(content).toEqual('**komentar telah dihapus**');
-        expect(date).toEqual(payload.date);
+        expect(date).toEqual(payload.date.toISOString());
         expect(username).toEqual(payload.username);
         expect(replies).toStrictEqual(payload.replies);
     });

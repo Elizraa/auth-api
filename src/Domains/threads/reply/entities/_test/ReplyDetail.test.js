@@ -34,7 +34,7 @@ describe('a ReplyDetail entities', () => {
         const payload = {
             id: 'reply-123',
             content: 'Content isi reply',
-            date: '2021-08-08T07:19:09.775Z',
+            date: new Date('2021-08-08T07:19:09.775Z'),
             username: 'dicoding',
             is_deleted: false,
         };
@@ -45,7 +45,7 @@ describe('a ReplyDetail entities', () => {
         // Assert
         expect(id).toEqual(payload.id);
         expect(content).toEqual(payload.content);
-        expect(date).toEqual(payload.date);
+        expect(date).toEqual(payload.date.toISOString());
         expect(username).toEqual(payload.username);
     });
 
@@ -54,7 +54,7 @@ describe('a ReplyDetail entities', () => {
         const payload = {
             id: 'reply-123',
             content: 'Content isi reply',
-            date: '2021-08-08T07:19:09.775Z',
+            date: new Date('2021-08-08T07:19:09.775Z'),
             username: 'dicoding',
             is_deleted: true,
         };
@@ -65,7 +65,7 @@ describe('a ReplyDetail entities', () => {
         // Assert
         expect(id).toEqual(payload.id);
         expect(content).toEqual('**balasan telah dihapus**');
-        expect(date).toEqual(payload.date);
+        expect(date).toEqual(payload.date.toISOString());
         expect(username).toEqual(payload.username);
     });
 });
