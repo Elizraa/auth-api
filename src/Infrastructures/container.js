@@ -17,6 +17,7 @@ const AuthenticationTokenManager = require("../Applications/security/Authenticat
 const ThreadRepositoryPostgres = require("./repository/ThreadRepositoryPostgres");
 const CommentRepositoryPostgres = require("./repository/CommentRepositoryPostgres");
 const ReplyRepositoryPostgres = require("./repository/ReplyRepositoryPostgres");
+const LikeRepositoryPostgres = require("./repository/LikeRepositoryPostgres");
 
 // use case
 const PasswordHash = require("../Applications/security/PasswordHash");
@@ -35,6 +36,8 @@ const GetThreadDetailsUseCase = require("../Applications/use_case/GetThreadDetai
 const AddReplyUseCase = require("../Applications/use_case/AddReplyUseCase");
 const DeleteReplyUseCase = require("../Applications/use_case/DeleteReplyUseCase");
 const ReplyRepository = require("../Domains/threads/reply/ReplyRepository");
+const LikeRepository = require("../Domains/threads/like/LikeRepository");
+const LikeUseCase = require("../Applications/use_case/LikeUseCase");
 
 // creating container
 const container = createContainer();
@@ -119,6 +122,20 @@ container.register([
   {
     key: ReplyRepository.name,
     Class: ReplyRepositoryPostgres,
+    parameter: {
+      dependencies: [
+        {
+          concrete: pool,
+        },
+        {
+          concrete: nanoid,
+        },
+      ],
+    },
+  },
+  {
+    key: LikeRepository.name,
+    Class: LikeRepositoryPostgres,
     parameter: {
       dependencies: [
         {
@@ -296,6 +313,27 @@ container.register([
         {
           name: "replyRepository",
           internal: ReplyRepository.name,
+        },
+        {
+          name: "likeRepository",
+          internal: LikeRepository.name,
+        },
+      ],
+    },
+  },
+  {
+    key: LikeUseCase.name,
+    Class: LikeUseCase,
+    parameter: {
+      injectType: "destructuring",
+      dependencies: [
+        {
+          name: "likeRepository",
+          internal: LikeRepository.name,
+        },
+        {
+          name: "commentRepository",
+          internal: CommentRepository.name,
         },
       ],
     },

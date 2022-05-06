@@ -7,10 +7,16 @@ const GetThreadDetails = require("../../Domains/threads/thread/entities/GetThrea
 const ThreadDetails = require("../../Domains/threads/thread/entities/ThreadDetails");
 
 class GetThreadDetailsUseCase {
-  constructor({ threadRepository, commentRepository, replyRepository }) {
+  constructor({
+    threadRepository,
+    commentRepository,
+    replyRepository,
+    likeRepository,
+  }) {
     this._threadRepository = threadRepository;
     this._commentRepository = commentRepository;
     this._replyRepository = replyRepository;
+    this._likeRepository = likeRepository;
   }
 
   async execute(useCasePayload) {
@@ -27,30 +33,31 @@ class GetThreadDetailsUseCase {
     const threadReplies = await this._replyRepository.getRepliesByThreadId(
       getThreadDetails
     );
+    const likeCounts = await this._likeRepository.getLikeCountsByThreadId(
+      getThreadDetails
+    );
     threadDetails.comments = this._getCommentAndReplies(
       threadComments,
-      threadReplies
+      threadReplies,
+      likeCounts
     );
+
     return new ThreadDetails(threadDetails);
   }
 
-  _getCommentAndReplies(comments, replies) {
+  _getCommentAndReplies(comments, replies, likeCounts) {
     return comments.map((comment) => {
+      const like = likeCounts.find(
+        (likeCount) => likeCount.comment_id === comment.id
+      );
+
+      comment.likeCount = like !== undefined ? like.like_count : 0;
+
       comment.replies = replies
         .filter((reply) => reply.commentid === comment.id)
-        .map(
-          (reply) =>
-            // eslint-disable-next-line implicit-arrow-linebreak
-            new ReplyDetail({
-              ...reply,
-              date: reply.date.toString(),
-            })
-        );
+        .map((reply) => new ReplyDetail(reply));
 
-      return new CommentDetail({
-        ...comment,
-        date: comment.date.toString(),
-      });
+      return new CommentDetail(comment);
     });
   }
 }

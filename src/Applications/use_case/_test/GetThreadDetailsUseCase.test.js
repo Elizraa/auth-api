@@ -6,6 +6,7 @@ const GetThreadDetails = require("../../../Domains/threads/thread/entities/GetTh
 const ThreadDetails = require("../../../Domains/threads/thread/entities/ThreadDetails");
 const ThreadRepository = require("../../../Domains/threads/thread/ThreadRepository");
 const GetThreadDetailsUseCase = require("../GetThreadDetailsUseCase");
+const LikeRepository = require("../../../Domains/threads/like/LikeRepository");
 
 describe("GetThreadDetailsUseCase", () => {
   /**
@@ -19,22 +20,23 @@ describe("GetThreadDetailsUseCase", () => {
 
     const expectedThreadDetails = new ThreadDetails({
       id: "thread-123",
-      title: "Di atas Awan",
-      body: "Ku ingin terbang",
-      date: "2021-08-08T07:19:09.775Z",
+      title: "Judul thread",
+      body: "Body thread",
+      date: new Date("2022-05-05T09:10:15.251Z"),
       username: "dicoding",
       comments: [
         new CommentDetail({
           id: "comment-123",
           content: "Content isi comment",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
+          likeCount: 2,
           is_deleted: false,
           replies: [
             new ReplyDetail({
               id: "reply-123",
               content: "Content isi reply",
-              date: "2021-08-08T07:19:09.775Z",
+              date: new Date("2022-05-05T09:10:15.251Z"),
               username: "dicoding",
               is_deleted: true,
             }),
@@ -43,14 +45,15 @@ describe("GetThreadDetailsUseCase", () => {
         new CommentDetail({
           id: "comment-124",
           content: "Content isi comment",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
+          likeCount: 0,
           is_deleted: true,
           replies: [
             new ReplyDetail({
               id: "reply-124",
               content: "Content isi reply",
-              date: "2021-08-08T07:19:09.775Z",
+              date: new Date("2022-05-05T09:10:15.251Z"),
               username: "dicoding",
               is_deleted: false,
             }),
@@ -63,14 +66,15 @@ describe("GetThreadDetailsUseCase", () => {
     const mockThreadRepository = new ThreadRepository();
     const mockCommentRepository = new CommentRepository();
     const mockReplyRepository = new ReplyRepository();
+    const mockLikeRepository = new LikeRepository();
 
     /** mocking needed function */
     mockThreadRepository.getThreadDetailsById = jest.fn(() =>
       Promise.resolve({
         id: "thread-123",
-        title: "Di atas Awan",
-        body: "Ku ingin terbang",
-        date: "2021-08-08T07:19:09.775Z",
+        title: "Judul thread",
+        body: "Body thread",
+        date: new Date("2022-05-05T09:10:15.251Z"),
         username: "dicoding",
       })
     );
@@ -82,7 +86,7 @@ describe("GetThreadDetailsUseCase", () => {
           id: "comment-123",
           thread_id: "thread-123",
           content: "Content isi comment",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
           is_deleted: false,
         },
@@ -90,7 +94,7 @@ describe("GetThreadDetailsUseCase", () => {
           id: "comment-124",
           thread_id: "thread-123",
           content: "Content isi comment",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
           is_deleted: true,
         },
@@ -103,7 +107,7 @@ describe("GetThreadDetailsUseCase", () => {
           id: "reply-123",
           commentid: "comment-123",
           content: "Content isi reply",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
           is_deleted: true,
         },
@@ -111,9 +115,18 @@ describe("GetThreadDetailsUseCase", () => {
           id: "reply-124",
           commentid: "comment-124",
           content: "Content isi reply",
-          date: "2021-08-08T07:19:09.775Z",
+          date: new Date("2022-05-05T09:10:15.251Z"),
           username: "dicoding",
           is_deleted: false,
+        },
+      ])
+    );
+
+    mockLikeRepository.getLikeCountsByThreadId = jest.fn(() =>
+      Promise.resolve([
+        {
+          comment_id: "comment-123",
+          like_count: 2,
         },
       ])
     );
@@ -123,7 +136,9 @@ describe("GetThreadDetailsUseCase", () => {
       threadRepository: mockThreadRepository,
       commentRepository: mockCommentRepository,
       replyRepository: mockReplyRepository,
+      likeRepository: mockLikeRepository,
     });
+
     // Action
     const threadDetails = await getThreadUseCase.execute(useCasePayload);
     // Assert
@@ -140,6 +155,11 @@ describe("GetThreadDetailsUseCase", () => {
       })
     );
     expect(mockReplyRepository.getRepliesByThreadId).toBeCalledWith(
+      new GetThreadDetails({
+        threadId: "thread-123",
+      })
+    );
+    expect(mockLikeRepository.getLikeCountsByThreadId).toBeCalledWith(
       new GetThreadDetails({
         threadId: "thread-123",
       })

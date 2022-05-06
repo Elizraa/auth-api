@@ -15,7 +15,7 @@ describe('a ThreadDetails entities', () => {
         // Arrange
         const payload = {
             id: 123,
-            title: 'Di atas Awan',
+            title: 'Judul thread',
             body: 12.34,
             date: '2021-08-08T07:19:09.775Z',
             username: [],
@@ -32,8 +32,8 @@ describe('a ThreadDetails entities', () => {
         // Arrange
         const payload = {
             id: 'thread-123',
-            title: 'Di atas Awan',
-            body: 'Ku ingin terbang',
+            title: 'Judul thread',
+            body: 'Body thread',
             date: '2021-08-08T07:19:09.775Z',
             username: 'dicoding',
             comments: [],
